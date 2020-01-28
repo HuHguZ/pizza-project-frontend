@@ -1,0 +1,68 @@
+.app {
+    display: grid;
+    grid-template-areas: 
+    "h"
+    "c"
+    "f";
+    grid-template-rows: 70px 1fr 200px;
+}
+
+.app-header {
+    background-color: #FFF6E5;
+    grid-area: h;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #FFA200;
+}
+
+.app-name {
+    padding-left: 10px;
+    font-size: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.app-logo {
+    width: 60px;
+    animation: spin 20s linear infinite;
+}
+
+@keyframes spin { 
+    from { 
+        transform: rotate(0deg); 
+    } to { 
+        transform: rotate(360deg); 
+    }
+}
+
+.app-cart {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding-right: 5px;
+}
+
+.app-cart img {
+    width: 50px;
+}
+
+.cart-info {
+    padding-left: 5px;
+    border-left: 2px solid #FFA200;;
+}
+
+.content {
+    grid-area: c;
+    background-color: #F5F5F5;
+}
+
+.footer {
+    grid-area: f;
+    background-color: #FFF6E5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
