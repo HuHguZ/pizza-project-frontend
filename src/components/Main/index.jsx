@@ -1,5 +1,6 @@
 import React from 'react'
 import pizza1 from './pizza1.jpg'
+import { connect } from 'react-redux'
 
 class Main extends React.PureComponent {
     render() {
@@ -15,11 +16,11 @@ class Main extends React.PureComponent {
                                 </div>
                                 <div className="product-name">Пицца 4 Синьора</div>
                                 <div className="product-description">
-                                Тесто, соус Наполи (томаты консервированные, лук репчатый, специи, масло оливковое, масло растительное, базилик свежий), колбаса Пепперони, ветчина, бекон, охотничьи колбаски, сыр Моцарелла, орегано
+                                    Тесто, соус Наполи (томаты консервированные, лук репчатый, специи, масло оливковое, масло растительное, базилик свежий), колбаса Пепперони, ветчина, бекон, охотничьи колбаски, сыр Моцарелла, орегано
                                 </div>
                                 <div className="product-order">
                                     <div className="product-price">5 $</div>
-                                    <button className="product-add-cart">Добавить в корзину</button>
+                                    <button className="product-add-cart" onClick={this.props.addGoodToCart.bind(this, Math.random())}>Добавить в корзину</button>
                                 </div>
                             </div>
                         )
@@ -30,4 +31,19 @@ class Main extends React.PureComponent {
     }
 }
 
-export default Main
+const mapStateToProps = state => ({
+    store: state
+});
+
+export default connect(
+    mapStateToProps,
+    dispatch => ({
+        addGoodToCart(payload) {
+            alert(`Товар ${payload} успешно добавлен в корзину!`);
+            dispatch({
+                type: 'ADD_PRODUCT_TO_CART',
+                payload
+            });
+        }
+    })
+)(Main)
