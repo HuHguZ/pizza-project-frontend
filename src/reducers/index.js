@@ -1,9 +1,8 @@
-const reducer = (state = [], action) => {
-    const { type, payload } = action;
-    if (type === 'ADD_PRODUCT_TO_CART') {
-        return [...state, payload];
-    }
-    return state;
-};
+import { combineReducers } from 'redux'
+import cart from './cart'
+import products from './products'
 
-export default reducer;
+export default combineReducers({
+    cart,
+    products
+});

@@ -104,6 +104,7 @@
 }
 
 .product-description {
+    min-height: 140px;
     padding: 0 24px 6px 24px;
     font-size: 14px;
     opacity: .7;
@@ -121,6 +122,10 @@
 .product-price {
     font-size: 18px;
     font-weight: bold;
+    opacity: .7;
+    border: 1px solid #2E1A00;
+    padding: 5px;
+    border-radius: 10px;
 }
 
 .product-add-cart {

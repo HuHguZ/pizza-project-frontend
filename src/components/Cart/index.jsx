@@ -1,6 +1,6 @@
 import React from 'react'
 import cart from './cart.png'
-import { connect, ReactReduxContext } from 'react-redux'
+import { connect } from 'react-redux'
 
 class Cart extends React.PureComponent {
     render() {
@@ -8,8 +8,8 @@ class Cart extends React.PureComponent {
             <div className="app-cart">
                 <img src={cart}/>
                 <div className="cart-info">
-                    <div className="cart-cost">0 $</div>
-                    <div className="cart-goods-count">{this.props.store.length} шт.</div>
+                    <div className="cart-cost">{this.props.totalPrice}<sup>$</sup></div>
+                    <div className="cart-goods-count">{this.props.cart.length} шт.</div>
                 </div>
             </div>
         );
@@ -18,6 +18,7 @@ class Cart extends React.PureComponent {
 
 export default connect(
     state => ({
-        store: state
+        cart: state.cart,
+        totalPrice: state.cart.reduce((sum, product) => sum + product.price, 0).toFixed(2)
     })
 )(Cart);
