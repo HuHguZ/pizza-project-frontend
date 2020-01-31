@@ -8,6 +8,10 @@ export default (state = [], action) => {
         const pos = state.findIndex(product => product.id === payload.id);
         state.splice(pos, 1);
         return state.slice();
+    } else if (type === 'CLEAR_CART') {
+        return [];
+    } else if (type === 'LOAD_SAVED_CART') {
+        return [...state, ...payload];
     }
     return state;
 };

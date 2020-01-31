@@ -1,6 +1,7 @@
 import React from 'react'
 import cart from './cart.png'
 import { connect } from 'react-redux'
+import './style.css'
 
 class Cart extends React.PureComponent {
     state = {
@@ -17,8 +18,11 @@ class Cart extends React.PureComponent {
     orderAccept() {
         const orderDeliveryAdress = this.orderDeliveryAdress.value;
         const phone = this.clientPhone.value;
+        console.log(this.props.cart);
         if (/^\+?7-?\d{3}-?\d{3}-?\d{2}-?\d{2}$/.test(phone)) {
             this.changeOverlayState();
+            this.props.cleartCart();
+            localStorage.clear();
             //очистить корзину
             //сохранить заказ в бд
             alert('Спасибо за заказ! В течение 5 минут на указанный вами номер позвонит наш менеджер и уточнит детали доставки.');
@@ -43,7 +47,7 @@ class Cart extends React.PureComponent {
                 <div className="cart-overlay" onClick={this.changeOverlayState.bind(this)}></div>
                 <div className="order">
                     <div className="order-checkout">
-                        <span>Оформление заказа</span>
+                        <div>Оформление заказа</div>
                         <button className="order-delete-button"
                         onClick={this.changeOverlayState.bind(this)}>
                             <span className="order-close-element"></span>
@@ -52,7 +56,7 @@ class Cart extends React.PureComponent {
                     <div className="order-products-wrapper">
                         {[...groups].map(([product, count], index) => 
                             <div key={index} className="order-block">
-                                <img src={`/img/${product.img_name}`} alt={product.img_alt} className="order-product-img"/>
+                                <img src={`${process.env.REACT_APP_SERVER_URL}/img/${product.img_name}`} alt={product.img_alt} className="order-product-img"/>
                                 <div className="order-product-description">
                                     <div className="order-header">
                                         <div>{product.img_alt}</div>
@@ -74,6 +78,13 @@ class Cart extends React.PureComponent {
                                 </div>
                             </div>    
                         )}
+                    </div>
+                    <div style={{
+                        display: 'flex',
+                        justifyContent: 'center'
+                    }}>
+                        <button className="cart-clear"
+                        onClick={this.props.cleartCart.bind(this)}>Очистить корзину</button>
                     </div>
                     <div className="order-contacts">
                         <div>Адрес доставки:</div> <input type="text" className="order-input" ref={
@@ -115,7 +126,7 @@ class Cart extends React.PureComponent {
 
 export default connect(
     state => ({
-        cart: state.cart,
+        cart: state.cart.sort((pa, pb) => pa.id - pb.id), //сортировка для исправления бага с хаотичным перемещением пицц в корзине при изменении их количества
         totalPrice: state.cart.reduce((sum, product) => sum + product.price, 0).toFixed(2)
     }),
     dispatch => ({
@@ -135,6 +146,11 @@ export default connect(
             dispatch({
                 type: 'DELETE_PRODUCT_FROM_CART',
                 payload
+            });
+        },
+        cleartCart() {
+            dispatch({
+                type: 'CLEAR_CART'
             });
         }
     })

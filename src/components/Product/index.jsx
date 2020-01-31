@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import './style.css'
 
 class Product extends React.PureComponent {
     render() {
@@ -12,7 +13,7 @@ class Product extends React.PureComponent {
                         <div key={product.id}>
                             <div className="product-block">
                                 <div className="product-image">
-                                    <img src={`/img/${product.img_name}`} alt={product.img_alt}/>
+                                    <img src={`${process.env.REACT_APP_SERVER_URL}/img/${product.img_name}`} alt={product.img_alt}/>
                                 </div>
                                 <div className="product-name">{product.name}</div>
                                 <div className="product-description">{product.description.length > 250 ? `${product.description.slice(0, 250)}...` : product.description}</div>

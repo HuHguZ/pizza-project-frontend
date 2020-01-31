@@ -11,7 +11,7 @@ class Header extends React.PureComponent {
     render() {
         return (
             <header className="app-header">
-                <div className="app-name"><img src={logo} className="app-logo"/>
+                <div className="app-name"><img src={logo} className="app-logo" alt="app logo"/>
                     <a href="/" style={aStyle}>Innoscripta Pizza</a>
                 </div>
                 <Cart />
