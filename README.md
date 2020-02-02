@@ -5,6 +5,10 @@ Run ```npm i create-react-app -g``` to install
 
 Frontend for pizza project. You should deploy it after deploying backend.
 
+## Demo video
+
+[Demo video](https://www.youtube.com/watch?v=e6HAkT03K2g&feature=youtu.be)
+
 ## Getting Started
 
 clone this repository:
