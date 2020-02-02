@@ -8,7 +8,6 @@
 }
 
 .app-header {
-    background-color: #FFF6E5;
     grid-area: h;
     display: flex;
     align-items: center;

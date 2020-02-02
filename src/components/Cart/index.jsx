@@ -15,17 +15,29 @@ class Cart extends React.PureComponent {
         });
     }
 
-    orderAccept() {
-        const orderDeliveryAdress = this.orderDeliveryAdress.value;
+    async orderAccept() {
+        const deliveryAdress = this.orderDeliveryAdress.value;
         const phone = this.clientPhone.value;
-        console.log(this.props.cart);
         if (/^\+?7-?\d{3}-?\d{3}-?\d{2}-?\d{2}$/.test(phone)) {
             this.changeOverlayState();
-            this.props.cleartCart();
-            localStorage.clear();
-            //очистить корзину
-            //сохранить заказ в бд
-            alert('Спасибо за заказ! В течение 5 минут на указанный вами номер позвонит наш менеджер и уточнит детали доставки.');
+            const saveOrderRequest = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/sendOrder`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    phone,
+                    deliveryAdress,
+                    products: JSON.parse(localStorage.cart)
+                })
+            });
+            const { success } = await saveOrderRequest.json();
+            if (success) {
+                this.props.cleartCart();
+                alert('Спасибо за заказ! В течение 5 минут на указанный вами номер позвонит наш менеджер и уточнит детали доставки.');
+            } else {
+                alert('Что-то пошло не так! Повторите попытку позже.');
+            }
         } else {
             alert('Некорректный номер телефона!');
         }
@@ -86,12 +98,13 @@ class Cart extends React.PureComponent {
                         <button className="cart-clear"
                         onClick={this.props.cleartCart.bind(this)}>Очистить корзину</button>
                     </div>
-                    <div className="order-contacts">
-                        <div>Адрес доставки:</div> <input type="text" className="order-input" ref={
+                    <div className="order-contacts" style={{
+                        marginBottom: '10px'
+                    }}>
+                        <div>Адрес доставки:</div> <input maxLength="255" type="text" className="order-input" ref={
                             input => this.orderDeliveryAdress = input
                         }/>
                     </div>
-                    <br />
                     <div className="order-contacts">
                         Номер телефона: <input type="text" placeholder="+7xxx-xxx-xx-xx" className="order-input" ref={
                             input => this.clientPhone = input
